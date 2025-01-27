@@ -4,15 +4,15 @@ if [[ -f "config.ini" ]]; then
     echo "Leyendo configuraciones desde config.ini..."
     while IFS='=' read -r key value; do
         case "$key" in
-            "dpath") dpath="$value" ;;
+            "downloadpath") downloadpath="$value" ;;
             "kbps") kbps="$value" ;;
             "format") format="$value" ;;
         esac
     done < config.ini
 else
     echo "No se encontro config.ini, creando con configuraciones por defecto..."
-    echo -e "[config]\ndpath=descargas\nkbps=0\nformat=mp3" > config.ini
-    dpath="descargas"
+    echo -e "[config]\downloadpath=\mnt\usb0\media\Musica\nkbps=0\nformat=m4a" > config.ini
+    downloadpath="\downloadpath=\mnt\usb0\media\Musica"
     kbps="0"
     format="mp3"
 fi
@@ -21,49 +21,22 @@ fi
 YT_DLP="./yt-dlp"
 msg_complete="Listo!"
 msg_error="Ocurrio un error:"
-SHORTCUT_PATH="./YTMP3.lnk"
-VBS_SCRIPT="./vs_lnk.vbs"
 
 # Verificar dependencias
 if ! command -v "$YT_DLP" &> /dev/null; then
     echo "El archivo yt-dlp no se encuentra en el directorio. Intentando descargarlo..."
     curl -L -o yt-dlp https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
     chmod +x yt-dlp
-    echo "Reiniciando..."
-    sleep 3
-#    exec "$0"
-#    exit
 fi
-
-if ! command -v ffmpeg &> /dev/null; then
-    echo "ffmpeg no esta instalado. Intentando instalarlo..."
-    sudo apt update && sudo apt install -y ffmpeg
-    echo "Cerrando. Si las dependencias se instalaron correctamente vuelve a ejecutar el programa."
-    sleep 3
-    exit
-fi
-
-echo "Todas las dependencias estan instaladas correctamente."
-
-# Actualizar yt-dlp
-echo "Buscando actualizaciones para yt-dlp..."
-"$YT_DLP" -U
-
-# Banner
-#cat banner.txt || echo "YTMP3"
-echo
 
 # Inicio
 while :; do
     echo
     echo "Ingresa una URL o presiona Enter para ver las descargas:"
     echo
-    read -p "::: " URL
+    read -p "::" URL
 #    clear
     echo
-#    cat banner.txt || echo "YTMP3"
-    echo
-
     [[ "$URL" == "x" ]] && exit
 
     if [[ "$URL" =~ ^http://|^https:// ]]; then
@@ -74,8 +47,8 @@ while :; do
     fi
 
     if [[ -z "$URL" ]]; then
-        mkdir -p "$dpath"
-        xdg-open "$dpath" &> /dev/null
+        mkdir -p "$downloadpath"
+        xdg-open "$downloadpath" &> /dev/null
         continue
     fi
 
@@ -104,7 +77,7 @@ LOG_FILE=$(mktemp)  # Archivo temporal para capturar la salida
 
 # Ejecuta yt-dlp en segundo plano y redirige la salida a un archivo temporal
 ("$YT_DLP" --format "bestaudio[ext=m4a]/bestaudio[ext=opus]/bestaudio" \
-    --output "$dpath/%(title)s.%(ext)s" \
+    --output "$downloadpath/%(title)s.%(ext)s" \
     --ppa "ffmpeg:-id3v2_version 3" \
     --cookies ./cookies.txt \
     --audio-format "$format" \
