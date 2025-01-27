@@ -28,10 +28,9 @@ if ! command -v "$YT_DLP" &> /dev/null; then
     curl -L -o yt-dlp https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
     chmod +x yt-dlp
 fi
-
+echo
 # Inicio
 while :; do
-    echo
     echo "Ingresa una URL o presiona Enter para ver las descargas:"
     echo
     read -p "::" URL
@@ -66,7 +65,6 @@ spinner() {
             sleep $delay
         done
     done
-
     printf "\r\033[K"  # Limpia la línea final del spinner
     tput cnorm  # Restaurar cursor
 }
