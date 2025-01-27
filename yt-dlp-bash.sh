@@ -9,6 +9,9 @@ if [[ -f "config.ini" ]]; then
             "format") format="$value" ;;
         esac
     done < config.ini
+    echo "downloadpath = $downloadpath"
+    echo "kbps = $kbps"
+    echo "format = $format"
 else
     echo "No se encontro config.ini, creando con configuraciones por defecto..."
     echo -e "[config]\ndownloadpath=/mnt/usb0/media/Musica\nkbps=0\nformat=m4a" > config.ini
