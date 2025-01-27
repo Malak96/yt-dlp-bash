@@ -40,12 +40,11 @@ while :; do
     echo
     [[ "$URL" == "x" ]] && exit
 
-    if [[ "$URL" =~ ^http://|^https:// ]]; then
-        echo "Trabajando, espera..."
-    else
+    if [[ ! "$URL" =~ ^http://|^https:// ]]; then
         echo "Buscando \"$URL\""
         URL="ytsearch:$URL"
     fi
+
 
     if [[ -z "$URL" ]]; then
         mkdir -p "$downloadpath"
