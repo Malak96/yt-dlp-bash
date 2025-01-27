@@ -34,7 +34,6 @@ while :; do
     echo "Ingresa una URL o presiona Enter para ver las descargas:"
     echo
     read -p "::" URL
-#    clear
     echo
     [[ "$URL" == "x" ]] && exit
 
@@ -51,7 +50,7 @@ while :; do
         continue
     fi
 
-
+echo
 # Spinner function
 spinner() {
     local pid=$1
