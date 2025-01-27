@@ -11,7 +11,7 @@ if [[ -f "config.ini" ]]; then
     done < config.ini
 else
     echo "No se encontro config.ini, creando con configuraciones por defecto..."
-    echo -e "[config]\ndownloadpath=\mnt\usb0\media\Musica\nkbps=0\nformat=m4a" > config.ini
+    echo -e "[config]\ndownloadpath=/mnt/usb0/media/Musica\nkbps=0\nformat=m4a" > config.ini
     downloadpath="\downloadpath=\mnt\usb0\media\Musica"
     kbps="0"
     format="mp3"
