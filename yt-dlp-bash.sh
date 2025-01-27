@@ -76,7 +76,7 @@ LOG_FILE=$(mktemp)  # Archivo temporal para capturar la salida
 
 # Ejecuta yt-dlp en segundo plano y redirige la salida a un archivo temporal
 ("$YT_DLP" --format "bestaudio[ext=m4a]/bestaudio[ext=opus]/bestaudio" \
-    --output "$downloadpath/%(title)s.%(ext)s" \
+    --output "$downloadpath/%(release_year)s/%(artist)s/%(album)s/%(title)s.%(ext)s" \
     --ppa "ffmpeg:-id3v2_version 3" \
     --cookies ./cookies.txt \
     --audio-format "$format" \
@@ -108,4 +108,5 @@ rm -f "$LOG_FILE"  # Limpia el archivo temporal
     if [[ $? -ne 0 ]]; then
         echo "$msg_error"
     fi
+
 done 
